@@ -1,0 +1,459 @@
+.admin-doc-type-controls #docTypeList {
+  max-height: 180px;
+  overflow-y: auto;
+  margin-bottom: 0;
+}
+.admin-doc-type-controls #searchDocTypeInput {
+  margin-bottom: 8px;
+}
+.admin-doc-type-controls {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 18px 24px;
+  margin-bottom: 24px;
+}
+.admin-doc-type-controls input[type="text"] {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 15px;
+}
+.admin-doc-type-controls .btn.blue {
+  font-size: 15px;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+.delete-doc-type-btn {
+  background: #fff;
+  color: #d32f2f;
+  border: 1px solid #d32f2f;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+.delete-doc-type-btn:hover {
+  background: #ffdada;
+  color: #b71c1c;
+}
+.admin-actions .action-text {
+  font-size: 12px;
+  color: #1976d2;
+}
+/* Admin Actions GUI */
+.admin-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.admin-actions .action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.admin-actions .action-btn:hover,
+.admin-actions a.action-btn:hover {
+  background: #e0f7fa;
+}
+.admin-actions .action-select {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+/* ===== General Reset ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f5f6fa;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* ===== Header ===== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #00695c;
+  color: #fff;
+  padding: 15px 30px;
+}
+
+.header .logo {
+  display: flex;
+  align-items: center;
+}
+
+.header .logo img {
+  height: 50px;
+  margin-right: 15px;
+}
+
+.header h1 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.header p {
+  font-size: 14px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-icon {
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+/* ===== Login Page ===== */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background: url('backgroundJH.png') no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+}
+
+.login-container header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-container .logo img {
+  height: 80px;
+  margin-bottom: 10px;
+}
+
+.login-box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+  color: #00695c;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.login-box .btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn.green {
+  background: #00695c;
+  color: #fff;
+}
+
+.btn.green:hover {
+  background: #004d40;
+}
+
+/* ===== Dashboard ===== */
+.container {
+  padding: 20px 40px;
+}
+
+.container h2 {
+  margin-bottom: 5px;
+  color: #00695c;
+}
+
+.subtext {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+#studentLogoutBtn,
+#adminLogoutBtn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+#studentLogoutBtn:hover,
+#adminLogoutBtn:hover {
+  background-color: #c0392b;
+}
+
+/* ===== Admin Dashboard ===== */
+.status-cards {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.status-cards .card {
+  flex: none;
+  width: 180px;
+  height: 110px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.status-cards h3 {
+  margin-top: 5px;
+  font-size: 22px;
+}
+
+.blue-text {
+  color: #1976d2;
+}
+
+.filters {
+  display: flex;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.filters select, .filters button {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+.badge.orange {
+  background: #ffccbc;
+  color: #e65100;
+}
+
+
+/* ===== Actions ===== */
+.actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.btn.blue {
+  background: #1976d2;
+  color: #fff;
+}
+
+.btn.blue:hover {
+  background: #0d47a1;
+}
+
+.btn.gray {
+  background: #757575;
+  color: #fff;
+}
+
+.btn.gray:hover {
+  background: #424242;
+}
+
+.status-box {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.status-box h3 {
+  margin-top: 5px;
+}
+
+.green-text {
+  color: #2e7d32;
+}
+
+/* ===== Table ===== */
+.table-section {
+  margin-top: 30px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table-section h3 {
+  margin-bottom: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+table th {
+  background: #f0f0f0;
+}
+
+.badge {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.badge.green {
+  background: #c8e6c9;
+  color: #2e7d32;
+}
+
+.badge.yellow {
+  background: #fff9c4;
+  color: #fbc02d;
+}
+
+a {
+  text-decoration: none;
+  color: #1976d2;
+}
+
+a.green-link {
+  color: #2e7d32;
+}
+
+/* ===== Modals ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.modal-content h3 {
+  margin-bottom: 15px;
+  color: #00695c;
+}
+
+.modal-content label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.modal-content select,
+.modal-content textarea,
+.modal-content input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.modal-content textarea {
+  resize: none;
+  height: 80px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn.green,
+.btn.blue {
+  border-radius: 16px;
+}
+
+/* Make modal submit buttons normal size and reduce border radius */
+#submitRequest.btn.green,
+#submitUpload.btn.green {
+  width: auto;
+  padding: 8px 20px;
+  font-size: 15px;
+  border-radius: 6px;
+}
+
+/* Make Cancel buttons same size and radius as Submit buttons in modals */
+#cancelModal.btn.gray,
+#cancelUpload.btn.gray {
+  width: auto;
+  padding: 8px 20px;
+  font-size: 15px;
+  border-radius: 6px;
+}
+
+/* ===== File Upload ===== */
+.drop-zone {
+  border: 2px dashed #bbb;
+  border-radius: 10px;
+  padding: 24px;
+  text-align: center;
+  background: #f5f6fa;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: border-color 0.2s;
+}
+
+.drop-zone.dragover {
+  border-color: #2e7d32;
+  background: #e0f7fa;
+}
+
+.drop-zone.has-file {
+  border-color: #2e7d32;
+}
