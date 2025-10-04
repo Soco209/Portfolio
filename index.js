@@ -1,186 +1,290 @@
-class MinimalLoginForm {
-    constructor() {
-        this.form = document.getElementById('loginForm'); // Fixed ID
-        this.emailInput = document.getElementById('email');
-        this.passwordInput = document.getElementById('password');
-        this.passwordToggle = document.getElementById('passwordToggle');
-        this.submitButton = this.form.querySelector('.login-btn');
-        this.successMessage = document.getElementById('successMessage');
-        
-        this.init();
+// =======================
+// DOM ELEMENTS
+// =======================
+const registrationForm = document.getElementById("registrationForm");
+const studentIdInput = document.getElementById("studentId");
+const fullNameInput = document.getElementById("fullName");
+const courseSelect = document.getElementById("course");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const confirmPasswordInput = document.getElementById("confirmPassword");
+const registerBtn = document.getElementById("registerBtn");
+const successMessage = document.getElementById("successMessage");
+
+// =======================
+// VALIDATION FUNCTIONS
+// =======================
+
+function validateStudentId(studentId) {
+    const studentIdRegex = /^S\d{8}$/;
+    if (!studentIdRegex.test(studentId)) {
+        return "Student ID must be in format S01234567";
     }
-    
-    init() {
-        this.bindEvents();
-        this.setupPasswordToggle();
+    return null;
+}
+
+function validateFullName(fullName) {
+    if (fullName.length < 2) {
+        return "Full name must be at least 2 characters long";
     }
-    
-    bindEvents() {
-        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
-        this.emailInput.addEventListener('blur', () => this.validateEmail());
-        this.passwordInput.addEventListener('blur', () => this.validatePassword());
-        this.emailInput.addEventListener('input', () => this.clearError('email'));
-        this.passwordInput.addEventListener('input', () => this.clearError('password'));
+    return null;
+}
+
+function validateCourse(course) {
+    if (!course) {
+        return "Please select a course";
     }
-    
-    setupPasswordToggle() {
-        this.passwordToggle.addEventListener('click', () => {
-            const type = this.passwordInput.type === 'password' ? 'text' : 'password';
-            this.passwordInput.type = type;
-            
-            const icon = this.passwordToggle.querySelector('.toggle-icon');
-            icon.classList.toggle('show-password', type === 'text');
-        });
+    return null;
+}
+
+function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+        return "Email is required";
     }
-    
-    validateEmail() {
-        const email = this.emailInput.value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        
-        if (!email) {
-            this.showError('email', 'Email is required');
-            return false;
-        }
-        
-        if (!emailRegex.test(email)) {
-            this.showError('email', 'Please enter a valid email address');
-            return false;
-        }
-        
-        this.clearError('email');
-        return true;
+    if (!emailRegex.test(email)) {
+        return "Please enter a valid email address";
     }
-    
-    validatePassword() {
-        const password = this.passwordInput.value;
-        
-        if (!password) {
-            this.showError('password', 'Password is required');
-            return false;
-        }
-        
-        if (password.length < 6) {
-            this.showError('password', 'Password must be at least 6 characters');
-            return false;
-        }
-        
-        this.clearError('password');
-        return true;
+    return null;
+}
+
+function validatePassword(password) {
+    if (!password) {
+        return "Password is required";
     }
-    
-    showError(field, message) {
-        const formGroup = document.getElementById(field).closest('.form-group');
-        const errorElement = document.getElementById(`${field}Error`);
-        
-        if (formGroup && errorElement) {
-            formGroup.classList.add('error');
-            errorElement.textContent = message;
-            errorElement.classList.add('show');
-        }
+    if (password.length < 6) {
+        return "Password must be at least 6 characters long";
     }
-    
-    clearError(field) {
-        const formGroup = document.getElementById(field).closest('.form-group');
-        const errorElement = document.getElementById(`${field}Error`);
-        
-        if (formGroup && errorElement) {
-            formGroup.classList.remove('error');
-            errorElement.classList.remove('show');
-            setTimeout(() => {
-                errorElement.textContent = '';
-            }, 200);
-        }
+    return null;
+}
+
+function validateConfirmPassword(password, confirmPassword) {
+    if (!confirmPassword) {
+        return "Please confirm your password";
     }
-    
-    async handleSubmit(e) {
-        e.preventDefault();
-        
-        const isEmailValid = this.validateEmail();
-        const isPasswordValid = this.validatePassword();
-        
-        if (!isEmailValid || !isPasswordValid) {
-            return;
-        }
-        
-        this.setLoading(true);
-        
-        try {
-            const email = this.emailInput.value.trim();
-            const password = this.passwordInput.value;
-            
-            console.log('Login attempt with:', { email });
-            
-            // Use real API login
-            await this.realLogin(email, password);
-            
-        } catch (error) {
-            console.error('Login error:', error);
-            this.showError('password', error.message || 'Login failed. Please check your credentials.');
-        } finally {
-            this.setLoading(false);
-        }
+    if (password !== confirmPassword) {
+        return "Passwords do not match";
     }
+    return null;
+}
+
+// =======================
+// UI HELPER FUNCTIONS
+// =======================
+
+function showError(field, message) {
+    const formGroup = document.getElementById(field).closest('.form-group');
+    const errorElement = document.getElementById(`${field}Error`);
     
-    // REAL API LOGIN
-    async realLogin(email, password) {
-        console.log('🔐 REAL LOGIN CALLED - Making API request...');
-        const response = await fetch('http://localhost/student_affairs/api/login.php', {
+    if (formGroup && errorElement) {
+        formGroup.classList.add('error');
+        errorElement.textContent = message;
+        errorElement.classList.add('show');
+    }
+}
+
+function clearError(field) {
+    const formGroup = document.getElementById(field).closest('.form-group');
+    const errorElement = document.getElementById(`${field}Error`);
+    
+    if (formGroup && errorElement) {
+        formGroup.classList.remove('error');
+        errorElement.classList.remove('show');
+        setTimeout(() => {
+            errorElement.textContent = '';
+        }, 200);
+    }
+}
+
+function setLoading(loading) {
+    if (registerBtn) {
+        registerBtn.classList.toggle('loading', loading);
+        registerBtn.disabled = loading;
+    }
+}
+
+function showSuccess() {
+    if (registrationForm && successMessage) {
+        registrationForm.style.display = 'none';
+        successMessage.classList.add('show');
+        
+        // Redirect to login page after 2 seconds
+        setTimeout(() => {
+            window.location.href = "../Login/login.html";
+        }, 2000);
+    }
+}
+
+// =======================
+// API REGISTRATION FUNCTION
+// =======================
+
+async function registerUser(email, password, studentId, course, fullName) {
+    try {
+        console.log('Sending registration request...');
+        
+        const response = await fetch('http://localhost/student_affairs/api/register.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            credentials: 'include', // IMPORTANT: This sends cookies/session
             body: JSON.stringify({
+                studentId: studentId,
+                fullName: fullName,
+                course: course,
                 email: email,
-                password: password
+                password: password,
+                confirmPassword: confirmPasswordInput.value
             })
         });
 
+        console.log('Response status:', response.status);
         const data = await response.json();
-        console.log('Login API response:', data);
+        console.log('Response data:', data);
         
-        if (data.success) {
-            // Store user data in localStorage for frontend use
-            localStorage.setItem('userData', JSON.stringify(data.user));
-            localStorage.setItem('isLoggedIn', 'true');
-            
-            this.showSuccess(data.user);
-            return data;
-        } else {
-            throw new Error(data.message);
-        }
-    }
-    
-    setLoading(loading) {
-        if (this.submitButton) {
-            this.submitButton.classList.toggle('loading', loading);
-            this.submitButton.disabled = loading;
-        }
-    }
-    
-    showSuccess(user) {
-        if (this.form && this.successMessage) {
-            this.form.style.display = 'none';
-            this.successMessage.classList.add('show');
-            
-            // Store user session in localStorage
-            localStorage.setItem('currentUser', user.email);
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('userRole', 'student');
-            localStorage.setItem('userData', JSON.stringify(user));
-            
-            console.log('User data stored:', user);
-            console.log('Redirecting to dashboard...');
-            
-            // Redirect to dashboard
-            setTimeout(() => {
-                window.location.href = '/student_affairs/User/user-dashboard.html';
-            }, 1000);
-        }
+        return {
+            success: response.ok,
+            message: data.message
+        };
+    } catch (error) {
+        console.error('Registration error:', error);
+        return {
+            success: false,
+            message: 'Network error. Please check if server is running.'
+        };
     }
 }
 
-// Initialize the form when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new MinimalLoginForm();
-});
+// =======================
+// EVENT HANDLERS
+// =======================
+
+function handleInputValidation() {
+    // Real-time validation as user types
+    if (studentIdInput) {
+        studentIdInput.addEventListener('input', () => clearError('studentId'));
+    }
+    if (fullNameInput) {
+        fullNameInput.addEventListener('input', () => clearError('fullName'));
+    }
+    if (courseSelect) {
+        courseSelect.addEventListener('change', () => clearError('course'));
+    }
+    if (emailInput) {
+        emailInput.addEventListener('input', () => clearError('email'));
+    }
+    if (passwordInput) {
+        passwordInput.addEventListener('input', () => clearError('password'));
+    }
+    if (confirmPasswordInput) {
+        confirmPasswordInput.addEventListener('input', () => clearError('confirmPassword'));
+    }
+}
+
+function validateAllFields(studentId, fullName, course, email, password, confirmPassword) {
+    let isValid = true;
+
+    // Validate each field
+    const studentIdError = validateStudentId(studentId);
+    if (studentIdError) {
+        showError('studentId', studentIdError);
+        isValid = false;
+    }
+
+    const fullNameError = validateFullName(fullName);
+    if (fullNameError) {
+        showError('fullName', fullNameError);
+        isValid = false;
+    }
+
+    const courseError = validateCourse(course);
+    if (courseError) {
+        showError('course', courseError);
+        isValid = false;
+    }
+
+    const emailError = validateEmail(email);
+    if (emailError) {
+        showError('email', emailError);
+        isValid = false;
+    }
+
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+        showError('password', passwordError);
+        isValid = false;
+    }
+
+    const confirmPasswordError = validateConfirmPassword(password, confirmPassword);
+    if (confirmPasswordError) {
+        showError('confirmPassword', confirmPasswordError);
+        isValid = false;
+    }
+
+    return isValid;
+}
+
+async function handleRegistration(e) {
+    e.preventDefault();
+
+    const studentId = studentIdInput.value.trim();
+    const fullName = fullNameInput.value.trim();
+    const course = courseSelect.value;
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+
+    // Clear previous errors
+    clearError('studentId');
+    clearError('fullName');
+    clearError('course');
+    clearError('email');
+    clearError('password');
+    clearError('confirmPassword');
+
+    // Validate all fields
+    if (!validateAllFields(studentId, fullName, course, email, password, confirmPassword)) {
+        return;
+    }
+
+    setLoading(true);
+
+    try {
+        // Register the user via API
+        const result = await registerUser(email, password, studentId, course, fullName);
+
+        if (result.success) {
+            showSuccess();
+        } else {
+            // Show appropriate error message
+            if (result.message.includes('email') || result.message.includes('Email')) {
+                showError('email', result.message);
+            } else if (result.message.includes('Student ID')) {
+                showError('studentId', result.message);
+            } else if (result.message.includes('Password')) {
+                showError('password', result.message);
+            } else {
+                showError('email', result.message);
+            }
+        }
+    } catch (error) {
+        console.error('Registration failed:', error);
+        showError('email', 'Registration failed. Please try again.');
+    } finally {
+        setLoading(false);
+    }
+}
+
+// =======================
+// INITIALIZATION
+// =======================
+
+function initRegistrationForm() {
+    if (registrationForm) {
+        registrationForm.addEventListener("submit", handleRegistration);
+        handleInputValidation();
+    }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', initRegistrationForm);
